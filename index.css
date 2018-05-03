@@ -1,0 +1,75 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1 {
+  grid-area: title;
+  margin: 0;
+  align-self: center;
+  text-align: center;
+  background: #eef;
+}
+
+canvas {
+  grid-area: canv;
+  background: #fafae0;
+  height: 600px;
+  width: 900px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1000px) {
+  canvas {
+    height: 300px;
+    width: 500px;
+  }
+}
+
+footer {
+  flex: 0 0 90px;
+  background: #fef;
+}
+
+.points {
+  grid-area: points;
+  margin: 0;
+  text-align: center;
+  align-self: center;
+  background: #efe;
+}
+
+.desc {
+  grid-area: desc;
+  margin: 0;
+  text-align: center;
+  background: #eff;
+}
+
+.a {
+  grid-area: a;
+}
+
+.b {
+  grid-area: b;
+}
+
+#grid1 {
+  display: grid;
+  grid-template-areas:
+    'title title points'
+    'desc desc desc'
+    'canv canv canv'
+    'canv canv canv'
+    'canv canv canv'
+    'a a a'
+    '. b .';
+    grid-template-columns: 100px 1fr auto;
+  flex: 1 1 auto;
+}
