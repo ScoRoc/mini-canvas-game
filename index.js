@@ -15,32 +15,61 @@ class Block {
     this.x = x;
     this.y = y;
     this.color = color;
+    this.moving = false;
+    this.moveDir = '';
+    this.move = this.move.bind(this);
+  }
+
+  move(e) {
+    switch (e.keyCode) {
+      case 38:  // Up
+        e.preventDefault();
+        this.moving = true;
+        this.moveDir = 'up';
+        console.log(block1);
+        break;
+      case 40:  // Down
+        e.preventDefault();
+        this.moving = true;
+        this.moveDir = 'down';
+        break;
+      case 37:  // Left
+        e.preventDefault();
+        this.moving = true;
+        this.moveDir = 'left';
+        break;
+      case 39:  // right
+        e.preventDefault();
+        this.moving = true;
+        this.moveDir = 'right';
+        break;
+    }
   }
 };
 
 let block1 = new Block(100, 100, '#3fa');
 let block2 = new Block(-50, 100, '#3fa');
 
-var moveBlock = e => {
-  switch (e.keyCode) {
-    case 38:  // Up
-    e.preventDefault();
-      block1.y -=3;
-      break;
-    case 40:  // Down
-    e.preventDefault();
-      block1.y +=3;
-      break;
-    case 37:  // Left
-    e.preventDefault();
-      block1.x -=3;
-      break;
-    case 39:  // right
-    e.preventDefault();
-      block1.x +=3;
-      break;
-  }
-};
+// var moveBlock = e => {
+//   switch (e.keyCode) {
+//     case 38:  // Up
+//     e.preventDefault();
+//       block1.y -=3;
+//       break;
+//     case 40:  // Down
+//     e.preventDefault();
+//       block1.y +=3;
+//       break;
+//     case 37:  // Left
+//     e.preventDefault();
+//       block1.x -=3;
+//       break;
+//     case 39:  // right
+//     e.preventDefault();
+//       block1.x +=3;
+//       break;
+//   }
+// };
 
 let animateGame = null;
 
@@ -52,24 +81,46 @@ let animationLoop = () => {
   ctx.fillStyle = block2.color;
   ctx.fillRect(block2.x, block2.y, 40, 30);
 
-  if (block1.x <= 850 && block2.x < 0) {
-    console.log('one');
-    block1.x +=3 ;
-  } else if (block1.x > 850 && block2.x < 0) {
-    console.log('two');
-    block1.x += 3;
-    block2.x += 3;
-  } else if (block2.x <= 850) {
-    console.log('three');
-    block1.x = -50;
-    block2.x += 3;
-  } else if (block2.x > 850 && block1.x < 0) {
-    console.log('four');
-    block1.x += 3;
-    block2.x += 3;
-  } else if (block1.x <= 850) {
-    block1.x += 3;
-    block2.x = -50;
+  // if (block1.x <= 850 && block2.x < 0) {
+  //   console.log('one');
+  //   block1.x +=3 ;
+  // } else if (block1.x > 850 && block2.x < 0) {
+  //   console.log('two');
+  //   block1.x += 3;
+  //   block2.x += 3;
+  // } else if (block2.x <= 850) {
+  //   console.log('three');
+  //   block1.x = -50;
+  //   block2.x += 3;
+  // } else if (block2.x > 850 && block1.x < 0) {
+  //   console.log('four');
+  //   block1.x += 3;
+  //   block2.x += 3;
+  // } else if (block1.x <= 850) {
+  //   block1.x += 3;
+  //   block2.x = -50;
+  // }
+
+  if (block1.moving) {
+    console.log('yup')
+    switch (block1.moveDir) {
+      case 'up':  // Up
+      e.preventDefault();
+        block1.y -=3;
+        break;
+      case 'down':  // Down
+      e.preventDefault();
+        block1.y +=3;
+        break;
+      case 'left':  // Left
+      e.preventDefault();
+        block1.x -=3;
+        break;
+      case 'right':  // right
+      e.preventDefault();
+        block1.x +=3;
+        break;
+    }
   }
 
   animateGame = requestAnimationFrame(animationLoop);
@@ -77,4 +128,4 @@ let animationLoop = () => {
 
 animationLoop();
 
-$(window).on('keydown', moveBlock);
+$(window).on('keydown', block1.move);
