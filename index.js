@@ -18,7 +18,8 @@ class Block {
     this.moving = false;
     this.moveDir = '';
     this.move = this.move.bind(this);
-  }
+    this.stopMove = this.stopMove.bind(this);
+  };
 
   move(e) {
     switch (e.keyCode) {
@@ -26,7 +27,6 @@ class Block {
         e.preventDefault();
         this.moving = true;
         this.moveDir = 'up';
-        console.log(block1);
         break;
       case 40:  // Down
         e.preventDefault();
@@ -44,11 +44,19 @@ class Block {
         this.moveDir = 'right';
         break;
     }
+  };
+
+  stopMove(e) {
+    let kc = e.keyCode;
+    if (kc === 37 || kc === 38 || kc === 39 || kc === 40) {
+      e.preventDefault();
+      this.moving = false;
+    }
   }
 };
 
 let block1 = new Block(100, 100, '#3fa');
-let block2 = new Block(-50, 100, '#3fa');
+let block2 = new Block(-50, 100, '#3af');
 
 // var moveBlock = e => {
 //   switch (e.keyCode) {
@@ -102,22 +110,17 @@ let animationLoop = () => {
   // }
 
   if (block1.moving) {
-    console.log('yup')
     switch (block1.moveDir) {
       case 'up':  // Up
-      e.preventDefault();
         block1.y -=3;
         break;
       case 'down':  // Down
-      e.preventDefault();
         block1.y +=3;
         break;
       case 'left':  // Left
-      e.preventDefault();
         block1.x -=3;
         break;
       case 'right':  // right
-      e.preventDefault();
         block1.x +=3;
         break;
     }
@@ -129,3 +132,4 @@ let animationLoop = () => {
 animationLoop();
 
 $(window).on('keydown', block1.move);
+$(window).on('keyup', block1.stopMove);
