@@ -2,6 +2,9 @@
 let canvas = document.getElementById('canvas1');
 let ctx = canvas.getContext('2d');
 
+let currentBlock = null;
+let otherBlock = null;
+
 if (window.innerWidth > 1000) {
   canvas.height = 600;
   canvas.width = 900;
@@ -11,9 +14,11 @@ if (window.innerWidth > 1000) {
 }
 
 class Block {
-  constructor(x, y, color) {
+  constructor(x, y, width, height, color) {
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
     this.color = color;
     this.moving = false;
     this.moveDir = '';
@@ -55,8 +60,24 @@ class Block {
   }
 };
 
-let block1 = new Block(100, 100, '#3fa');
-let block2 = new Block(-50, 100, '#3af');
+let block1 = new Block(100, 100, 40, 30, '#3fa');
+let block2 = new Block(150, 100, 40, 30, '#5df');
+
+currentBlock = block1;
+otherBlock = block2;
+
+let changeBlock = (e, block) => {
+  let x = e.clientX - canvas.offsetLeft;
+  let y = e.clientY - canvas.offsetTop + $(window).scrollTop();
+  if (x >= block.x && x <= block.x + block.width && y >= block.y && y <= block.y + block.height) {
+    $(window).off('keydown', currentBlock.move);
+    $(window).off('keyup', currentBlock.stopMove);
+    currentBlock === block1 ? currentBlock = block2 : currentBlock = block1;
+    otherBlock === block1 ? otherBlock = block2 : otherBlock = block1;
+    $(window).on('keydown', currentBlock.move);
+    $(window).on('keyup', currentBlock.stopMove);
+  }
+};
 
 // var moveBlock = e => {
 //   switch (e.keyCode) {
@@ -85,9 +106,9 @@ let animationLoop = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = block1.color;
-  ctx.fillRect(block1.x, block1.y, 40, 30);
+  ctx.fillRect(block1.x, block1.y, block1.width, block1.height);
   ctx.fillStyle = block2.color;
-  ctx.fillRect(block2.x, block2.y, 40, 30);
+  ctx.fillRect(block2.x, block2.y, block2.width, block2.height);
 
   // if (block1.x <= 850 && block2.x < 0) {
   //   console.log('one');
@@ -109,19 +130,19 @@ let animationLoop = () => {
   //   block2.x = -50;
   // }
 
-  if (block1.moving) {
-    switch (block1.moveDir) {
+  if (currentBlock.moving) {
+    switch (currentBlock.moveDir) {
       case 'up':  // Up
-        block1.y -=3;
+        currentBlock.y -=3;
         break;
       case 'down':  // Down
-        block1.y +=3;
+        currentBlock.y +=3;
         break;
       case 'left':  // Left
-        block1.x -=3;
+        currentBlock.x -=3;
         break;
       case 'right':  // right
-        block1.x +=3;
+        currentBlock.x +=3;
         break;
     }
   }
@@ -131,5 +152,8 @@ let animationLoop = () => {
 
 animationLoop();
 
-$(window).on('keydown', block1.move);
-$(window).on('keyup', block1.stopMove);
+$(window).on('keydown', currentBlock.move);
+$(window).on('keyup', currentBlock.stopMove);
+canvas.addEventListener('click', e => {
+  changeBlock(e, otherBlock);
+});
