@@ -44,6 +44,7 @@ footer {
 .points {
   grid-area: points;
   margin: 0;
+  padding: .5em 0;
   text-align: center;
   align-self: center;
   background: #efe;
