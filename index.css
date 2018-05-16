@@ -37,6 +37,7 @@ footer {
   background: #fef;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .points {
