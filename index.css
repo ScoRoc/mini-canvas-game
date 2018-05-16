@@ -54,6 +54,7 @@ footer {
 
 .a {
   grid-area: a;
+  margin-left: 1em;
 }
 
 .b {
