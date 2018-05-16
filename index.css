@@ -35,7 +35,8 @@ canvas {
 footer {
   flex: 0 0 90px;
   background: #fef;
-  text-align: center;
+  display: flex;
+  align-items: center;
 }
 
 .points {
