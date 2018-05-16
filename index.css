@@ -51,6 +51,7 @@ footer {
 .desc {
   grid-area: desc;
   margin: 0;
+  padding: 1.5em 0;
   text-align: center;
   background: #eff;
 }
