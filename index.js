@@ -43,10 +43,15 @@ class Block {
         this.moving = true;
         this.moveDir = 'left';
         break;
-      case 39:  // right
+      case 39:  // Right
         e.preventDefault();
         this.moving = true;
         this.moveDir = 'right';
+        break;
+      case 32:  // Spacebar
+        e.preventDefault();
+        this.moving = true;
+        this.moveDir = 'jump';
         break;
     }
   };
@@ -56,6 +61,10 @@ class Block {
     if (kc === 37 || kc === 38 || kc === 39 || kc === 40) {
       e.preventDefault();
       this.moving = false;
+    } else if (kc === 32) {
+      e.preventDefault();
+      this.moving = false;
+      currentBlock.y += 45;
     }
   }
 };
@@ -106,8 +115,11 @@ let animationLoop = () => {
       case 'left':  // Left
         currentBlock.x -=3;
         break;
-      case 'right':  // right
+      case 'right':  // Right
         currentBlock.x +=3;
+        break;
+      case 'jump':  // spacebar
+        currentBlock.y -=6;
         break;
     }
   }
