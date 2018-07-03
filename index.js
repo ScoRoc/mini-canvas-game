@@ -72,7 +72,21 @@ class Block {
 let block1 = new Block(100, 100, 40, 30, '#3fa');
 let block2 = new Block(150, 100, 40, 30, '#5df');
 
-currentBlock = block1;
+class ConsoleBlock extends Block {
+  constructor(x, y, width, height, color) {
+    super(x, y, width, height, color);
+  }
+
+  move(e) {
+    console.log('x: ', this.x, 'y: ', this.y);
+    super.move(e);
+  }
+
+};
+
+let consoleBlock1 = new ConsoleBlock(20, 20, 30, 30, 'red')
+
+currentBlock = consoleBlock1;
 otherBlock = block2;
 
 let changeBlock = (e, block) => {
@@ -81,8 +95,8 @@ let changeBlock = (e, block) => {
   if (x >= block.x && x <= block.x + block.width && y >= block.y && y <= block.y + block.height) {
     $(window).off('keydown', currentBlock.move);
     $(window).off('keyup', currentBlock.stopMove);
-    currentBlock === block1 ? currentBlock = block2 : currentBlock = block1;
-    otherBlock === block1 ? otherBlock = block2 : otherBlock = block1;
+    currentBlock === consoleBlock1 ? currentBlock = block2 : currentBlock = consoleBlock1;
+    otherBlock === consoleBlock1 ? otherBlock = block2 : otherBlock = consoleBlock1;
     $(window).on('keydown', currentBlock.move);
     $(window).on('keyup', currentBlock.stopMove);
   }
@@ -93,12 +107,12 @@ let animateGame = null;
 let animationLoop = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  block1.y > 200 ? ctx.fillStyle = block1.color : ctx.fillStyle = 'purple';
-  ctx.fillRect(block1.x, block1.y, block1.width, block1.height);
+  consoleBlock1.y > 200 ? ctx.fillStyle = consoleBlock1.color : ctx.fillStyle = 'purple';
+  ctx.fillRect(consoleBlock1.x, consoleBlock1.y, consoleBlock1.width, consoleBlock1.height);
   ctx.fillStyle = block2.color;
   ctx.fillRect(block2.x, block2.y, block2.width, block2.height);
 
-  if (currentBlock === block1) {
+  if (currentBlock === consoleBlock1) {
     canvas.style.backgroundColor = '#fafae0';
   } else if (currentBlock === block2) {
     canvas.style.backgroundColor = '#fef3c0';
